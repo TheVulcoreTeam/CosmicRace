@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Network/Lobby.gd" type="Script" id=1]
+[ext_resource path="res://Game/Actors/Player/Player.tscn" type="PackedScene" id=2]
 
 [node name="Looby" type="Node2D"]
 script = ExtResource( 1 )
@@ -48,6 +49,9 @@ margin_right = 313.0
 margin_bottom = 40.0
 align = 1
 placeholder_text = "your nick"
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 120.915, 166.877 )
 
 [connection signal="pressed" from="ColorRect/ServerButton" to="." method="_server"]
 [connection signal="pressed" from="ColorRect/ClientButton" to="." method="_client"]
