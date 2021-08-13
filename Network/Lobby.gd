@@ -41,7 +41,7 @@ var player_info = {}
 func _player_connected(id):
 	# Called on both clients and server when a peer connects. Send my info to it.
 	print("_player_connected ")
-	if !get_tree().is_network_server():
+	if get_tree().is_network_server():
 		return
 	rpc_id(id, "register_player", my_info)
 
