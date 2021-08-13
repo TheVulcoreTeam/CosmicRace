@@ -24,6 +24,11 @@ config/name="Cosmic Race"
 run/main_scene="res://Game/Game.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=400
+window/size/height=400
+
 [importer_defaults]
 
 texture={
@@ -46,11 +51,6 @@ texture={
 "stream": false,
 "svg/scale": 1.0
 }
-
-[display]
-
-window/size/width=400
-window/size/height=400
 
 [physics]
 

@@ -1,7 +1,7 @@
 extends Node
 
-const SERVER_IP = "localhost"
-const SERVER_PORT = 4242
+const SERVER_IP = "186.129.67.167"
+const SERVER_PORT = 3000
 const MAX_PLAYERS = 10
 var peer
 var my_info
@@ -21,13 +21,13 @@ func _server():
 	get_tree().network_peer = peer
 	
 
-func get_name():
+func _get_name():
 	return $TextEdit.text
 
 func _client():
 	print("_client")
-	my_info = { name = get_name(), favorite_color = Color8(255, 0, 255) }#TextEdit
-	print(my_info)
+	my_info = { name = _get_name(), favorite_color = Color8(255, 0, 255) }#TextEdit
+	print_debug(my_info)
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(SERVER_IP, SERVER_PORT)
 	get_tree().network_peer = peer
