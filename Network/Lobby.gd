@@ -1,5 +1,6 @@
 extends Node
 
+#const SERVER_IP = "186.129.105.198"
 const SERVER_IP = "localhost"
 const SERVER_PORT = 3000
 const MAX_PLAYERS = 10
@@ -79,7 +80,7 @@ remote func register_player(info):
 	player_info[id] = info
 	#show info
 	print_debug(player_info)
-	$ColorRect/Label.text = $ColorRect/Label.text +"\n$" + str(player_info) + "\n$"
+	$Label.text = $Label.text +"\n$" + str(player_info) + "\n$"
 	#send full list to sender
 	rpc("show_list", player_info)
 
@@ -92,7 +93,7 @@ remotesync func show_list(player_info):
 			instance.set_name(str(p))
 			add_child(instance)
 			instance.position = Vector2(100, 100)
-			$ColorRect/Label.text = $ColorRect/Label.text +"\n$" + str(p) + "\n$"
+			$Label.text = $Label.text +"\n$" + str(p) + "\n$"
 
 
 

@@ -36,6 +36,15 @@ texture = ExtResource( 2 )
 centered = false
 offset = Vector2( -100, -40 )
 
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = 13.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_top = -1.0
 margin_right = 800.0
@@ -107,13 +116,6 @@ margin_bottom = 2.0
 custom_fonts/font = SubResource( 3 )
 align = 1
 placeholder_text = "Your Nick"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="ColorRect"]
-anchor_right = 1.0
-anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

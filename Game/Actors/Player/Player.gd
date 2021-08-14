@@ -12,6 +12,7 @@ func _ready():
 func _process(delta):
 	_rotate_loca(delta)
 	_move_local()
+	
 	if str(Main.id_connection) ==  name:
 		input_sender(delta)
 
