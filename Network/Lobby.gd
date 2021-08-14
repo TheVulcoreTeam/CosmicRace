@@ -1,12 +1,12 @@
 extends Node
 
-#const SERVER_IP = "186.129.105.198"
-const SERVER_IP = "localhost"
+const SERVER_IP = "186.129.105.198"
 const SERVER_PORT = 3000
 const MAX_PLAYERS = 10
 var peer
 var my_info
 var player = preload("res://Game/Actors/Player/Player.tscn")
+var player_info = {}
 
 
 func _ready():
@@ -40,8 +40,7 @@ func _client():
 	$ColorRect.hide()
 	
 
-# Player info, associate ID to data
-var player_info = {}
+
 # Info we send to other players
 
 
@@ -86,14 +85,11 @@ remote func register_player(info):
 
 remotesync func show_list(player_info):
 	print_debug("show_list ", player_info)
-	for p in player_info:
-		if !Main.players.has(p):
+	for id_connection in player_info:
+		if !Main.players.has(id_connection):
 			var instance = player.instance()
-			Main.players[p] = instance
-			instance.set_name(str(p))
+			Main.players[id_connection] = instance
+			instance.set_name(str(id_connection))
 			add_child(instance)
 			instance.position = Vector2(100, 100)
 			$Label.text = $Label.text +"\n$" + str(p) + "\n$"
-
-
-
