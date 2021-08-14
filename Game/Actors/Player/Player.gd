@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var dir_y = 0
+var go_ahead = 0
 var dir_rotation = 0
 var speed = 100
 var speed_rotation = 100
@@ -22,12 +22,12 @@ func _rotate_loca(delta):
 
 
 func _move_local():
-	if dir_y != 0:
+	if go_ahead != 0:
 		var x = speed * sin(-rotation)
 		var y = speed * cos(-rotation)
-		if dir_y == 1:
+		if go_ahead == 1:
 			move_and_slide(Vector2(x, y))
-		elif dir_y == -1:
+		elif go_ahead == -1:
 			move_and_slide(Vector2(-x, -y))
 
 
@@ -76,10 +76,6 @@ remotesync func _rotate(data):
 remotesync func move_ahead(data):
 	var id = get_tree().get_rpc_sender_id()
 	if Main.players.has(id):
-		Main.players[id].dir_y = data[0]
+		Main.players[id].go_ahead = data[0]
 		Main.players[id].rotation = data[1]
 		Main.players[id].position = data[2]
-
-
-
-
