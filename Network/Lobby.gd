@@ -26,7 +26,8 @@ func _get_name():
 
 func _client():
 	print("_client")
-	my_info = { name = _get_name(), favorite_color = Color8(255, 0, 255) }#TextEdit
+	# TextEdit
+	my_info = { name = _get_name(), favorite_color = Color8(255, 0, 255) }
 	print_debug(my_info)
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(SERVER_IP, SERVER_PORT)
