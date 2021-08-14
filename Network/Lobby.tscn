@@ -1,10 +1,40 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Network/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://Images/CosmicRace-bg.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/LuckiestGuy-Regular.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+extra_spacing_top = 6
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 4
+outline_color = Color( 0.129412, 0.152941, 0.513726, 1 )
+extra_spacing_top = 3
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_bottom = -6
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 100
+outline_size = 10
+outline_color = Color( 0.129412, 0.152941, 0.513726, 1 )
+extra_spacing_top = 9
+font_data = ExtResource( 3 )
 
 [node name="Looby" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="CosmicRace-bg" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false
+offset = Vector2( -100, -40 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_top = -1.0
@@ -21,23 +51,62 @@ texture = ExtResource( 2 )
 centered = false
 offset = Vector2( -100, -40 )
 
+[node name="ColorRect" type="ColorRect" parent="ColorRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -302.0
+margin_top = -69.0
+margin_right = 309.0
+margin_bottom = 70.0
+color = Color( 0.0509804, 0.345098, 0.45098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ServerButton" type="Button" parent="ColorRect"]
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-margin_left = -86.0
-margin_bottom = 20.0
-text = "host"
+anchor_bottom = 1.0
+margin_left = -99.4351
+margin_top = -38.8994
+margin_right = -13.4351
+margin_bottom = -9.89941
+custom_fonts/font = SubResource( 1 )
+text = "Be Host"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ClientButton" type="Button" parent="ColorRect"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -86.0
-margin_top = 21.528
-margin_bottom = 41.528
-text = "client"
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -43.0
+margin_top = 20.0
+margin_right = 43.0
+margin_bottom = 46.0
+custom_fonts/font = SubResource( 2 )
+text = "Connect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="LineEdit" parent="ColorRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -156.5
+margin_top = -38.0
+margin_right = 156.5
+margin_bottom = 2.0
+custom_fonts/font = SubResource( 3 )
+align = 1
+placeholder_text = "Your Nick"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -45,16 +114,17 @@ __meta__ = {
 [node name="Label" type="Label" parent="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 42.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="LineEdit" parent="."]
-margin_right = 313.0
-margin_bottom = 40.0
+[node name="Label2" type="Label" parent="ColorRect"]
+margin_right = 797.0
+margin_bottom = 215.0
+custom_fonts/font = SubResource( 4 )
+text = "Cosmic Race"
 align = 1
-placeholder_text = "your nick"
+valign = 1
 
 [connection signal="pressed" from="ColorRect/ServerButton" to="." method="_server"]
 [connection signal="pressed" from="ColorRect/ClientButton" to="." method="_client"]

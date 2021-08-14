@@ -22,10 +22,11 @@ func _server():
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_server(SERVER_PORT, MAX_PLAYERS)
 	get_tree().network_peer = peer
+	$ColorRect.hide()
 	
 
 func _get_name():
-	return $TextEdit.text
+	return $ColorRect/TextEdit.text
 
 func _client():
 	print("_client")
@@ -35,6 +36,7 @@ func _client():
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(SERVER_IP, SERVER_PORT)
 	get_tree().network_peer = peer
+	$ColorRect.hide()
 	
 
 # Player info, associate ID to data
