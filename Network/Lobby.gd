@@ -1,6 +1,6 @@
 extends Node
 
-const SERVER_IP = "186.129.67.167"
+const SERVER_IP = "localhost"
 const SERVER_PORT = 3000
 const MAX_PLAYERS = 10
 var peer

@@ -8,22 +8,6 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Node2D",
-"class": "Player",
-"language": "GDScript",
-"path": "res://Game/Actors/Player/Player.gd"
-}, {
-"base": "KinematicBody2D",
-"class": "SamuPlayer",
-"language": "GDScript",
-"path": "res://Game/Actors/Player/samu.gd"
-} ]
-_global_script_class_icons={
-"Player": "",
-"SamuPlayer": ""
-}
-
 [application]
 
 config/name="Cosmic Race"

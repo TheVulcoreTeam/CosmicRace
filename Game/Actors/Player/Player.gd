@@ -1,6 +1,4 @@
-extends Node2D
-
-class_name Player
+extends KinematicBody2D
 
 var dir_y = 0
 var dir_rotation = 0
@@ -25,31 +23,33 @@ func move(delta):
 	if dir_y == 1:
 #		move_and_slide(Vector2(0, dir_y * 100), position.rotated(rotation))
 #		move_and_slide(Vector2(x, y))
-		rpc_unreliable("move_ahead", delta)
+		rpc_unreliable("move_ahead", rotation)
 	elif dir_y == -1:
 #		move_and_slide(Vector2(0, dir_y * 100), position.rotated(rotation))
 #		move_and_slide(Vector2(-x, -y))
-		rpc_unreliable("move_back", delta)
+		rpc_unreliable("move_back", rotation)
 	
 #	print_debug(rotation)
 	
 	if dir_rotation == 1:
-		rpc_unreliable("rotate_left", delta)
+		rpc_unreliable("_rotate", true)
 	elif dir_rotation == -1:
-		rpc_unreliable("rotate_right", delta)
+		rpc_unreliable("_rotate", false)
 
-remotesync func move_ahead(delta):
-	global_position.y += 100 * delta
-
-
-remotesync func move_back(delta):
-	global_position.y -= 100 * delta
+remotesync func move_ahead(rotation):
+	var x = speed * sin(-rotation)
+	var y = speed * cos(-rotation)
+	move_and_slide(Vector2(x, y))
 
 
-remotesync func rotate_left(delta):
-	rotation_degrees += dir_rotation * delta * speed_rotation
+remotesync func move_back(rotation):
+	var x = speed * sin(-rotation)
+	var y = speed * cos(-rotation)
+	move_and_slide(Vector2(-x, -y))
 
 
-remotesync func rotate_right(delta):
-	rotation_degrees -= dir_rotation * delta * -speed_rotation
-
+remotesync func _rotate(side):
+	var n = -1
+	if(side):
+		n = 1
+	rotation_degrees += 0.016 * speed_rotation * n
