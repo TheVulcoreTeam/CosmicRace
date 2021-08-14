@@ -14,10 +14,13 @@ config/name="Cosmic Race"
 run/main_scene="res://Game/Game.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Main="*res://Main.gd"
+
 [display]
 
-window/size/width=400
-window/size/height=400
+window/size/width=800
 
 [importer_defaults]
 

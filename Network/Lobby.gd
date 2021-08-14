@@ -1,12 +1,15 @@
 extends Node
 
-const SERVER_IP = "186.129.67.167"
+const SERVER_IP = "localhost"
 const SERVER_PORT = 3000
 const MAX_PLAYERS = 10
 var peer
 var my_info
+var player = preload("res://Game/Actors/Player/Player.tscn")
+
 
 func _ready():
+	Main.lobby = self
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	get_tree().connect("connection_failed", self, "_connected_fail")
@@ -41,40 +44,53 @@ var player_info = {}
 
 func _player_connected(id):
 	# Called on both clients and server when a peer connects. Send my info to it.
-	print("_player_connected ")
+	print("_player_connected: ", id)
 	if get_tree().is_network_server():
 		return
-	rpc_id(id, "register_player", my_info)
+#	id from server = 1
+	rpc_id(1, "register_player", my_info)
+
 
 func _player_disconnected(id):
 	print("_player_disconnected")
 	player_info.erase(id) # Erase player from info.
+	remove_child(Main.players[id])
 
 func _connected_ok():
-	print("_connected_ok")
+	print_debug("_connected_ok")
 	
 
 func _server_disconnected():
-	print("_server_disconnected")
+	print_debug("_server_disconnected")
 	pass # Server kicked us; show error and abort.
 
 func _connected_fail():
-	print("_connected_fail")
+	print_debug("_connected_fail")
 	pass # Could not even connect to server; abort.
 
 remote func register_player(info):
 	# executed on server side
-	print("register_player")
+	print_debug("register_player")
 	# Get the id of the RPC sender.
 	var id = get_tree().get_rpc_sender_id()
 	# Store the info
 	player_info[id] = info
 	#show info
-	print(player_info)
+	print_debug(player_info)
 	$ColorRect/Label.text = $ColorRect/Label.text +"\n$" + str(player_info) + "\n$"
 	#send full list to sender
-	rpc_id(id, "show_list", player_info)
+	rpc("show_list", player_info)
 
-remote func show_list(player_info):
-	print("show_list ", player_info)
-	$ColorRect/Label.text = $ColorRect/Label.text +"\n$" + str(player_info) + "\n$"
+remotesync func show_list(player_info):
+	print_debug("show_list ", player_info)
+	for p in player_info:
+		if !Main.players.has(p):
+			var instance = player.instance()
+			Main.players[p] = instance
+			instance.set_name(str(p))
+			add_child(instance)
+			instance.position = Vector2(100, 100)
+			$ColorRect/Label.text = $ColorRect/Label.text +"\n$" + str(p) + "\n$"
+
+
+
