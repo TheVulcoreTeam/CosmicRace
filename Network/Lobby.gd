@@ -4,9 +4,21 @@ const SERVER_IP = "186.129.105.198"
 const SERVER_PORT = 3000
 const MAX_PLAYERS = 10
 var peer
-var my_info
+var my_info = null
 var player = preload("res://Game/Actors/Player/Player.tscn")
 var player_info = {}
+var colors = [
+	Color8(0, 255, 255),
+	Color8(255, 0, 255),
+	Color8(255, 255, 0),
+	Color8(0, 0, 255),
+	Color8(255, 0, 0),
+	Color8(0, 255, 0),
+	Color8(0, 100, 0),
+	Color8(0, 0, 100),
+	Color8(100, 0, 0)
+]
+var index_color = 0
 
 
 func _ready():
@@ -32,7 +44,6 @@ func _get_name():
 func _client():
 	print("_client")
 	# TextEdit
-	my_info = { name = _get_name(), favorite_color = Color8(255, 0, 255) }
 	print_debug(my_info)
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(SERVER_IP, SERVER_PORT)
@@ -49,8 +60,11 @@ func _player_connected(id):
 	print("_player_connected: ", id)
 	if get_tree().is_network_server():
 		return
-#	id from server = 1
-	rpc_id(1, "register_player", my_info)
+
+	if my_info == null:
+		my_info = { name = _get_name(), color_id = 0 }
+#		id from server = 1
+		rpc_id(1, "register_player", my_info)
 
 
 func _player_disconnected(id):
@@ -76,10 +90,14 @@ remote func register_player(info):
 	# Get the id of the RPC sender.
 	var id = get_tree().get_rpc_sender_id()
 	# Store the info
+	info.color_id = index_color
+	index_color = index_color + 1
+	if index_color == 7:
+		index_color = 0
 	player_info[id] = info
 	#show info
 	print_debug(player_info)
-	$Label.text = $Label.text +"\n$" + str(player_info) + "\n$"
+	$Label.text = $Label.text +"\n$" + str(player_info) 
 	#send full list to sender
 	rpc("show_list", player_info)
 
@@ -92,4 +110,5 @@ remotesync func show_list(player_info):
 			instance.set_name(str(id_connection))
 			add_child(instance)
 			instance.position = Vector2(100, 100)
-			$Label.text = $Label.text +"\n$" + str(p) + "\n$"
+			instance.modulate = colors[player_info[id_connection].color_id]
+			$Label.text = $Label.text +"\n$" + str(id_connection) 
